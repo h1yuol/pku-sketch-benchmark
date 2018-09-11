@@ -11,7 +11,7 @@
 using namespace std;
 bool negative_sort_item(itemType &a, itemType &b)
 {
-    return a.frequency > a.frequency;
+    return a.frequency > b.frequency;
 }
 tuple<string,double> parseArg(string argument) {
     int equPos = argument.find('=');
@@ -87,17 +87,19 @@ int main(int argc, char *argv[]) {
                     keyValuePairs.push_back(keyValue);
                 }
                 // Now we have datasetName, sketchName, tasks, and keyValuePairs!!
-                SketchBase* player = (SketchBase*)ClassFactory::getInstance().getClassByName(sketchName);
-                for(auto iter=keyValuePairs.begin(); iter!=keyValuePairs.end(); iter++) {
-                    string key = get<0>(*iter);
-                    double val = get<1>(*iter);
-                    // cout << "hello" << endl;
-                    // cout << key << " " << val << endl;
-                    player->parameterSet(key,val);
-                }
-                player->init();
-
+               
                 for(int i=0; i<tasks.size();i++){
+
+					SketchBase* player = (SketchBase*)ClassFactory::getInstance().getClassByName(sketchName);
+					for (auto iter = keyValuePairs.begin(); iter != keyValuePairs.end(); iter++) {
+						string key = get<0>(*iter);
+						double val = get<1>(*iter);
+						// cout << "hello" << endl;
+						// cout << key << " " << val << endl;
+						player->parameterSet(key, val);
+					}
+					player->init();
+
                     string task = tasks[i];
                     string filename = datasetName+"+"+sketchName+"+"+task;
                     for(int j=split;j<items.size();j++){
